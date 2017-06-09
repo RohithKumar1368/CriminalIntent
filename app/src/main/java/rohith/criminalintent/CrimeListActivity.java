@@ -1,6 +1,5 @@
 package rohith.criminalintent;
 
-
 import android.app.Fragment;
 
 public class CrimeListActivity extends SingleFragmentActivity {
