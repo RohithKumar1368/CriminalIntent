@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,6 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField ;
     private Button mDateButton ;
     private CheckBox mSolvedCheckBox ;
-    private static final String TAG = "CrimeFragment" ;
-    private ArrayList<Crime> al ;
 
     public static final String EXTRA_CRIME_ID = "com.rohith.criminalintent.crime_id" ;
 
@@ -32,8 +29,9 @@ public class CrimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID) ;
+        UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID) ;
         // Progress : 8:20PM 14-06-2017 mCrime object is null, we aren't receiving a crime object!!!
+        // Update : 9:07PM 14-06-2017 Resolved the NullPointerException.
 
         /*
          * It seems like the crime id retrieved using the intent extra doesn't belong to any crime,
@@ -46,8 +44,8 @@ public class CrimeFragment extends Fragment {
          * Remedy was to use .Euqals method to check if the UUID's are same, and the app works.
          * Two hours well spent on a simple thing. Bravo
          */
-
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId) ;
+
 
     }
 
@@ -93,4 +91,15 @@ public class CrimeFragment extends Fragment {
 
         return v ;
     }
+
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle() ;
+        args.putSerializable(EXTRA_CRIME_ID , crimeId);
+
+        CrimeFragment fragment = new CrimeFragment() ;
+        fragment.setArguments(args) ;
+
+        return fragment ;
+    }
+
 }
