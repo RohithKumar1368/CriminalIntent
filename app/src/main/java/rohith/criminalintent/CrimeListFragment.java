@@ -47,6 +47,7 @@ public class CrimeListFragment extends ListFragment {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             // If we weren't given a view inflate this one
+            // Check to see if a recycled view was passed in.
             if(convertView == null){
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_crime,null) ;
             }
