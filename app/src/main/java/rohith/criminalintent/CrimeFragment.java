@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
@@ -21,6 +23,8 @@ public class CrimeFragment extends Fragment {
     private EditText mTitleField ;
     private Button mDateButton ;
     private CheckBox mSolvedCheckBox ;
+    private static final String TAG = "CrimeFragment" ;
+    private ArrayList<Crime> al ;
 
     public static final String EXTRA_CRIME_ID = "com.rohith.criminalintent.crime_id" ;
 
@@ -29,7 +33,22 @@ public class CrimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID) ;
+        // Progress : 8:20PM 14-06-2017 mCrime object is null, we aren't receiving a crime object!!!
+
+        /*
+         * It seems like the crime id retrieved using the intent extra doesn't belong to any crime,
+         * which is weird because it's the id of the crime in crimelist.
+         * Theoretically no new UUID's are generated i.e. to say that every UUID belongs to some crime
+         * so we should get a hit results. But here in practise we aren't getting any hit results.
+         * Something is off, and i've to find it.
+         *
+         * Solution: Found the culprit to be == to check equality
+         * Remedy was to use .Euqals method to check if the UUID's are same, and the app works.
+         * Two hours well spent on a simple thing. Bravo
+         */
+
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId) ;
+
     }
 
     @Override
@@ -40,7 +59,6 @@ public class CrimeFragment extends Fragment {
         mTitleField = (EditText) v.findViewById(R.id.crime_title) ;
         mDateButton = (Button) v.findViewById(R.id.crime_date) ;
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved) ;
-
 
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {

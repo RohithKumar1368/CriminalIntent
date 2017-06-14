@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,7 +20,6 @@ public class CrimeListFragment extends ListFragment {
 
     private ArrayList<Crime> mCrimes ;
     private static String TAG = "CrimeListFragment" ;
-    private Context context = getActivity() ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +28,6 @@ public class CrimeListFragment extends ListFragment {
         mCrimes = CrimeLab.get(getActivity()).getCrimes() ;
 
         CrimeAdapter adapter = new CrimeAdapter(mCrimes);
-
         setListAdapter(adapter) ;
     }
 
@@ -36,9 +35,11 @@ public class CrimeListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id){
         Crime c = ((CrimeAdapter) getListAdapter() ).getItem(position) ;
         Intent i = new Intent(getActivity(),CrimeActivity.class) ;
+        Log.d(TAG , c.getId().toString()) ;
         i.putExtra(CrimeFragment.EXTRA_CRIME_ID,c.getId()) ;
         startActivity(i) ;
     }
+
 
     private class CrimeAdapter extends ArrayAdapter<Crime> {
 

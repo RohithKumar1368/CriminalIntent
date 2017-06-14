@@ -1,10 +1,11 @@
 package rohith.criminalintent;
 
-
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
+// This is a singleton class
 
 public class CrimeLab {
 
@@ -39,11 +40,10 @@ public class CrimeLab {
 
     public Crime getCrime(UUID id){
         for(Crime c : mCrimes){
-            if(c.getId() == id){
+            if(c.getId().equals(id)){
                 return c ;
             }
         }
         return null ;
     }
-
 }
