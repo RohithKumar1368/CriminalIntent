@@ -13,6 +13,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.UUID;
+
 public class CrimeFragment extends Fragment {
 
     private Crime mCrime ;
@@ -20,10 +22,14 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton ;
     private CheckBox mSolvedCheckBox ;
 
+    public static final String EXTRA_CRIME_ID = "com.rohith.criminalintent.crime_id" ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCrime = new Crime() ;
+
+        UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID) ;
+        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId) ;
     }
 
     @Override
@@ -36,6 +42,7 @@ public class CrimeFragment extends Fragment {
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved) ;
 
 
+        mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -57,6 +64,7 @@ public class CrimeFragment extends Fragment {
         // Disable the button so that users cannot click it
         mDateButton.setEnabled(false) ;
 
+        mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
