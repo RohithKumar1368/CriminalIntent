@@ -1,8 +1,9 @@
 package rohith.criminalintent;
 
 
-import android.app.Fragment;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,9 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-
-import java.util.ArrayList;
 import java.util.UUID;
+
 
 public class CrimeFragment extends Fragment {
 
@@ -41,13 +41,13 @@ public class CrimeFragment extends Fragment {
          * Something is off, and i've to find it.
          *
          * Solution: Found the culprit to be == to check equality
-         * Remedy was to use .Euqals method to check if the UUID's are same, and the app works.
+         * Remedy was to use .euqals() method to check if the UUID's are same, and the app works.
          * Two hours well spent on a simple thing. Bravo
          */
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId) ;
-
-
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup parent,Bundle savedInstanceState) {
@@ -89,6 +89,11 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        /*
+         * This doesn't work for some reason
+         */
+        getActivity().setTitle(mTitleField.getText());
+
         return v ;
     }
 
@@ -101,5 +106,4 @@ public class CrimeFragment extends Fragment {
 
         return fragment ;
     }
-
 }
