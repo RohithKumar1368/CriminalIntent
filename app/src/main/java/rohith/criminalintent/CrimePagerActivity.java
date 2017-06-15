@@ -16,6 +16,7 @@ public class CrimePagerActivity extends AppCompatActivity {
     private ViewPager mViewPager ;
     private ArrayList<Crime> mCrimes ;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
